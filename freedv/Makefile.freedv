@@ -1,0 +1,81 @@
+# Incremental build for sbitx -- companion to the original `build` script.
+#
+# WHY THIS EXISTS:
+# The original `./build sbitx` script runs a single gcc command compiling
+# every .c file from scratch, every time, even if you only changed one line
+# in one file. On a Pi, that means waiting for a full recompile of GTK/FFTW-
+# heavy files like sbitx_gtk.c and mongoose.c on every tiny tweak.
+#
+# This Makefile compiles each .c file to its own .o file, and uses gcc's
+# -MMD -MP flags to auto-generate per-file dependency information (which
+# headers each .c file actually includes). Only files that changed --
+# or that include a header that changed -- get recompiled. Everything else
+# is reused from the previous build.
+#
+# USAGE:
+#   make          -- incremental build (fast after the first one)
+#   make clean    -- remove all .o/.d files and the binary, forcing a full rebuild
+#   make rebuild  -- clean + build in one step
+#
+# The very first `make` after adding this file will still compile everything
+# once (nothing has been built incrementally yet) -- that's expected and only
+# happens a single time. Every build after that is fast.
+
+TARGET  = sbitx
+CC      = gcc
+CFLAGS  = -g -MMD -MP -DSBITX_FREEDV -Irnnoise/include $(shell pkg-config --cflags gtk+-3.0)
+LDLIBS  = ft8_lib/libft8.a -lwiringPi -lasound -lcodec2 -ldl -lm -lfftw3 -lfftw3f -pthread -lncurses -lsqlite3 \
+          $(shell pkg-config --libs gtk+-3.0)
+
+SRCS = vfo.c si570.c sbitx_sound.c fft_filter.c sbitx_gtk.c sbitx_utils.c \
+       i2cbb.c si5351v2.c ini.c hamlib.c queue.c modems.c logbook.c \
+       modem_cw.c settings_ui.c oled.c \
+       telnet.c macros.c modem_ft8.c remote.c mongoose.c webserver.c ainr.c usbaudio.c freedv_ext.c sbitx.c
+
+# RNNoise (AI noise reduction, used by ainr.c). Compiled with -O3 because it is
+# a neural network that runs on every audio frame; the model weights are NOT
+# compiled in -- they are loaded at run time from data/rnnoise_weights.bin.
+RNN_SRCS = rnnoise/src/denoise.c rnnoise/src/rnn.c rnnoise/src/pitch.c \
+           rnnoise/src/kiss_fft.c rnnoise/src/celt_lpc.c rnnoise/src/nnet.c \
+           rnnoise/src/nnet_default.c rnnoise/src/parse_lpcnet_weights.c \
+           rnnoise/src/rnnoise_tables.c rnnoise/src/rnnoise_data.c
+RNN_OBJS = $(RNN_SRCS:.c=.o)
+RNN_CFLAGS = -O3 -MMD -MP -DHAVE_CONFIG_H -Irnnoise -Irnnoise/include -Irnnoise/src
+
+OBJS = $(SRCS:.c=.o) $(RNN_OBJS)
+DEPS = $(OBJS:.o=.d)
+
+.PHONY: all clean rebuild prepare
+
+all: prepare $(TARGET)
+
+$(TARGET): $(OBJS) ft8_lib/libft8.a
+	$(CC) -g -o $(TARGET) $(OBJS) $(LDLIBS)
+
+$(RNN_OBJS): rnnoise/src/%.o: rnnoise/src/%.c
+	$(CC) $(RNN_CFLAGS) -c $< -o $@
+
+# ainr.c runs filters on every audio block, so it gets optimisation (the
+# project default is -g with no -O)
+ainr.o: CFLAGS += -O2
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+ft8_lib/libft8.a:
+	$(MAKE) -C ft8_lib libft8.a
+
+# same one-time setup the original build script did (db/dirs), safe to re-run
+prepare:
+	@mkdir -p ./audio ./data ./web
+	@if [ ! -f data/sbitx.db ]; then \
+		echo "database doesn't exist, creating it"; \
+		cd data && sqlite3 sbitx.db < create_db.sql; \
+	fi
+
+clean:
+	rm -f $(OBJS) $(DEPS) $(TARGET)
+
+rebuild: clean all
+
+-include $(DEPS)

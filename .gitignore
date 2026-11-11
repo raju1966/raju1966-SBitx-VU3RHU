@@ -1,0 +1,7 @@
+*.o
+*.d
+sbitx
+sbitx_freedv
+audio/*.wav
+*.tar.gz
+*~
