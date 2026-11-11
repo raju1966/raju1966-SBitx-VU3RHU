@@ -1,6 +1,6 @@
-# sBitx custom build (VU3RHU)
+# sBitx v3.021 with new features (VU3RHU)
 
-Enhanced firmware for the HF Signals **sBitx v3** (Raspberry Pi, GTK3, Debian Buster).
+New features for the HF Signals **sBitx v3** (Raspberry Pi, GTK3, Debian Buster).
 Built on https://github.com/afarhan/sbitx. Only these files differ from upstream:
 `sbitx.c`, `sbitx_gtk.c`, `usbaudio.c/.h`, `ainr.c/.h`, `freedv_ext.c/.h` and the `Makefile`.
 
@@ -19,8 +19,8 @@ Not yet done: BW shift display on screen, separate RX/TX bandwidth selection.
 ## Install (radio only)
 Needs the sBitx base software in `~/sbitx`.
 ```
-git clone https://github.com/raju1966/SBitx---VU3RHU.git
-cd SBitx---VU3RHU
+git clone https://github.com/<your-username>/sbitx-vu3rhu.git
+cd sbitx-vu3rhu
 bash install.sh
 cd ~/sbitx && ./sbitx
 ```

@@ -1,42 +1,44 @@
 # Notice: credits, licences and what is covered by what
 
-This repository combines work by several authors. Each part keeps its own
-licence. Nothing here relicenses anyone else's work.
+This repository adds new features to the sBitx v3.021 firmware. It combines work by several
+authors. Each part keeps its own licence. Nothing here relicenses anyone else's work.
 
-## 1. Upstream project: sBitx v3.021
+## Licence summary
+
+| Part | Author | Licence | Status |
+|---|---|---|---|
+| New files: `ainr.c/.h`, `usbaudio.c/.h`, `freedv_ext.c/.h`, `standalone/fdvapp.c`, install scripts, manual, README | Rajesh Huddar (VU3RHU) | MIT (see `LICENSE`) | In force |
+| New-feature additions inside `sbitx.c`, `sbitx_gtk.c`, `Makefile` | Rajesh Huddar (VU3RHU) | MIT, to the extent they can be separated from the upstream code | In force |
+| Original sBitx code in `sbitx.c`, `sbitx_gtk.c`, `Makefile` | Ashhar Farhan, HF Signals and contributors | **To be confirmed by the upstream authors** | **Pending** (see section 1) |
+| RNNoise (`rnnoise/`, `data/rnnoise_weights.bin`) | Xiph.Org, Mozilla, Jean-Marc Valin and others | BSD-style, see `rnnoise/COPYING` | In force |
+| codec2 / FreeDV (downloaded, not included) | David Rowe and contributors | LGPL-2.1 | In force |
+| `ft8_lib` (part of upstream sBitx) | Karlis Goba | its own licence | In force |
+
+## 1. Upstream project: sBitx v3.021 (licence pending)
 Source: https://github.com/afarhan/sbitx (Ashhar Farhan, HF Signals, and contributors).
 
-`sbitx.c`, `sbitx_gtk.c` and the `Makefile` are **modified versions of upstream files**.
-The upstream parts remain under the upstream project's terms. At the time of writing the
-upstream repository shows no LICENSE file, so its authors' permission is being requested
-(see issue linked from the README). If the upstream authors state a licence, it applies
-to the upstream portions of these files and takes precedence over anything stated here.
+The upstream repository currently shows no LICENSE file. The permission and licence terms for the
+original sBitx code have been requested from its authors. **Until they reply, the original sBitx code
+in this repository is not relicensed and stays under whatever terms its authors choose.**
+When the upstream authors state a licence, it applies to the upstream portions and takes precedence
+over anything stated here. This notice will then be updated.
 
-The sBitx hardware and software are products of HF Signals; this repository is an
-independent community enhancement and is not endorsed by them.
+Upstream licence: _pending reply from the sBitx authors_.
 
-## 2. Original contributions of Rajesh Huddar (VU3RHU), MIT licence (see LICENSE)
-Entirely new files:
-* `ainr.c`, `ainr.h` (AI noise reduction using RNNoise)
-* `usbaudio.c`, `usbaudio.h` (USB speaker, microphone and PTT)
-* `freedv_ext.c`, `freedv_ext.h` (FreeDV inside the radio)
-* `standalone/fdvapp.c` and `standalone/Makefile` (standalone FreeDV program)
-* the install scripts (`install.sh`, `freedv/install_freedv.sh`, `standalone/install_standalone.sh`, `freedv/build_codec2.sh`)
-* the manual in `docs/`, `README.md`
+This repository is an independent community project. It is not made or endorsed by HF Signals.
 
-Added or changed parts inside `sbitx.c`, `sbitx_gtk.c` and `Makefile` (equalizers, NRVL/NBVL/FMNT/FVLY,
-meters, SWR sweep statistics, recorder, TX trace, TX/RX timing and AGC recovery): the MIT licence
-applies to these additions **only to the extent they can be separated from the upstream code**.
-
-These contributions were developed with the assistance of Claude (Anthropic).
+## 2. What the MIT licence covers
+New features by Rajesh Huddar: six-band RX/TX equalizers, NRVL / NBVL / FMNT / FVLY noise reduction,
+AI noise reduction (AINR), USB speaker/microphone/PTT, PWR/SWR/ALC/DRV meters, SWR sweep statistics,
+voice recorder with waveform and WAV export, TX spectrum trace, faster TX/RX switching and AGC recovery,
+and FreeDV (in the radio and standalone). These were developed with the assistance of Claude (Anthropic).
 
 ## 3. Third-party libraries
-* **RNNoise** (Xiph.Org Foundation, Mozilla, Jean-Marc Valin and others): BSD-style licence.
-  Full text in `rnnoise/COPYING`. Keep that file with the code. The model file
+* **RNNoise**: BSD-style licence. Keep `rnnoise/COPYING` with the code. The model file
   `data/rnnoise_weights.bin` is the RNNoise trained model published by Xiph.Org.
-* **codec2 / FreeDV** (David Rowe and contributors): LGPL-2.1. Not included here; the scripts download
-  it from https://github.com/drowe67/codec2 and link to it as a shared library.
-* **FT8 library** used by sBitx (`ft8_lib`, Karlis Goba): part of the upstream project, under its own licence.
+* **codec2 / FreeDV**: LGPL-2.1. Not included here; the scripts download it from
+  https://github.com/drowe67/codec2 and link to it as a shared library.
+* **ft8_lib**: part of the upstream sBitx project, under its own licence.
 
 ## 4. Amateur radio use
 You are responsible for operating within your licence conditions and local regulations.
