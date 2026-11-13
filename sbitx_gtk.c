@@ -2045,6 +2045,12 @@ void draw_tx_meters(struct field *f, cairo_t *gfx){
 		if (pitch < bh + 1) pitch = bh + 1;
 	}
 	int x = f->x + 6, w = f->width - 12, y = f->y + f->height - strip_h + 4;
+	// The MENU box sits over the right-hand end of this strip (it is at
+	// screen_width-47). Stop the bars and their values short of it, so the
+	// SWR, ALC and DRV readings are not hidden behind MENU.
+	int right_limit = screen_width - 47 - 4;
+	if (x + w > right_limit && right_limit - x > 200)
+		w = right_limit - x;
 	fill_rect(gfx, f->x, f->y + f->height - strip_h, f->width, strip_h, SPECTRUM_BACKGROUND);
 	cairo_set_source_rgb(gfx, 0.5, 0.5, 0.5);
 	cairo_move_to(gfx, f->x, f->y + f->height - strip_h + 0.5);
@@ -5625,6 +5631,18 @@ void update_menu_page(){
 	// One function per page, maximum 4 boxes, never split across pages.
 	// Any future page using 4 boxes MUST use box4_w (or narrower), not a
 	// hardcoded width, to stay guaranteed clear of MENU/KBD.
+
+	// Redraw the whole menu row as ONE rectangle. Pages do not all use the
+	// same box widths (M5 has six narrow boxes, the others four wider ones).
+	// field_move() only invalidates each old box, so the redraw was clipped
+	// to those old boxes: the 3px gaps between them, and the 1px outline
+	// that overhangs each box, were never repainted and showed up as stray
+	// vertical lines inside the new page's boxes. A single strip covering
+	// the row (2px margin for the outlines) repaints everything in one pass.
+	// Only while the menu row is shown: in the CW and digital layouts other
+	// fields occupy this area.
+	if (page != 0)
+		invalidate_rect(row_start - 2, row_y - 2, (row_end - row_start) + 4, row_h + 4);
 }
 
 int do_menu_toggle(struct field *f, cairo_t *gfx, int event, int a, int b, int c){

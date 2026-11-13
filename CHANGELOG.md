@@ -2,6 +2,25 @@
 
 All notable changes to this project. Dates are in the format YYYY-MM-DD.
 
+## Update 2026-11-13
+Files changed: `sbitx_gtk.c`, the install scripts, the new `fix_usb_audio.sh`, the manual and these documents.
+`sbitx.c` and `usbaudio.c` are unchanged.
+
+### Fixed
+- **No audio, or garbled audio, when the radio was switched on with a USB sound card plugged in.**
+  The USB card could take one of the sound-card numbers the radio needs (its own card at 0, the Loopback
+  cards at 1, 2 and 3). The new `fix_usb_audio.sh` (run by every installer) makes the Pi give a USB sound
+  card number 5 every time, through `/etc/modprobe.d/sbitx-usb-audio.conf`. The card can now stay plugged in.
+  Confirmed on the author's radio. Restart the Pi once after installing.
+- **Stray vertical lines inside the menu boxes after changing menu page** (seen on M6 after M5, and on M5 after M4).
+  Pages with six narrow boxes and pages with four wider boxes left parts of each other's outlines on screen.
+  The whole menu row is now redrawn in one piece on every page change (`sbitx_gtk.c`).
+- **SWR, ALC and DRV readings partly hidden behind the MENU box.** The meter bars now stop short of the
+  MENU box (`sbitx_gtk.c`).
+
+### Changed
+- Manual revised (section 10, USB audio; troubleshooting), now titled "with New Features".
+
 ## Release v3.021-vu3rhu-nov2026 (2026-11-11)
 Based on sBitx v3.021 (https://github.com/afarhan/sbitx).
 

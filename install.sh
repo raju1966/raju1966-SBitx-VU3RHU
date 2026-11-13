@@ -16,5 +16,7 @@ cp -rf "$HERE/rnnoise" "$DEST/"
 cp -f "$HERE/data/rnnoise_weights.bin" "$DEST/data/"
 echo "[3/4] Building (a few minutes) ..."
 cd "$DEST" && make clean && make
+echo "[USB] Keeping a USB sound card out of the radio's sound-card slots ..."
+bash "$HERE/fix_usb_audio.sh" || true
 echo "[4/4] Done. Backup is in $HOME/sbitx_backup_$STAMP"
 echo "Start the radio with:  cd ~/sbitx && ./sbitx"

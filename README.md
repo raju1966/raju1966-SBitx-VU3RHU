@@ -43,8 +43,10 @@ cp -r ~/sbitx ~/sbitx_backup_$(date +%Y%m%d)
 cd ~ && mv sbitx sbitx_new && cp -r sbitx_backup_YYYYMMDD sbitx
 ```
 
-## USB audio caution
-Start the radio first, then plug in the USB sound card, then tap USBS / USBM (menu M4).
+## USB audio
+The installer keeps a USB sound card at card number 5, so it can stay plugged in when the radio is switched on.
+Restart the Pi once after installing, and check with `cat /proc/asound/cards`. If you installed before 13 November 2026,
+run `bash fix_usb_audio.sh` once and restart. Then tap USBS / USBM (menu M4).
 
 ## Manual
 Full illustrated user manual: `docs/sBitx_User_Manual.pdf`.

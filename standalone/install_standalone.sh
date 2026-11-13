@@ -15,4 +15,5 @@ if [ "$HERE" != "$DEST" ]; then mkdir -p "$DEST"; cp -rf "$HERE"/. "$DEST"/; fi
 cd "$DEST" && make clean && make
 echo "=== Step C: loopback sound cards ==="
 sudo modprobe snd-aloop enable=1,1,1 index=1,2,3 || echo "(loopback cards could not be loaded - the sBitx install normally has them)"
+bash "$HERE/../fix_usb_audio.sh" || true
 echo "Done. Start the program:  cd ~/sbitx_freedv && ./sbitx_freedv"

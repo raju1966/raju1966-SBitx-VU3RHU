@@ -15,4 +15,5 @@ cp -f "$REPO/freedv/freedv_ext.c" "$REPO/freedv/freedv_ext.h" "$DEST/"
 cp -f "$REPO/freedv/Makefile.freedv" "$DEST/Makefile"
 mkdir -p "$DEST/data"; cp -rf "$REPO/rnnoise" "$DEST/"; cp -f "$REPO/data/rnnoise_weights.bin" "$DEST/data/"
 cd "$DEST" && make clean && make
+bash "$REPO/fix_usb_audio.sh" || true
 echo "Done. Backup: $HOME/sbitx_backup_$STAMP   Start: cd ~/sbitx && ./sbitx"
