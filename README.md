@@ -23,8 +23,8 @@ Not yet done: BW shift display on screen, separate RX/TX bandwidth selection.
 ## Install (radio only)
 Needs the sBitx base software in `~/sbitx`.
 ```
-git clone https://github.com/raju1966/SBitx---VU3RHU.git
-cd SBitx---VU3RHU
+git clone https://github.com/raju1966/raju1966-SBitx-VU3RHU.git
+cd raju1966-SBitx-VU3RHU
 bash install.sh
 cd ~/sbitx && ./sbitx
 ```
