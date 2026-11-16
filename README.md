@@ -1,5 +1,9 @@
 # sBitx v3.021 with new features (VU3RHU)
 
+*Firmware enhancements for the HF Signals sBitx, written with **Claude (Anthropic)** —
+six-band equalizers, AI noise reduction, USB audio, a voice recorder and FreeDV,
+designed and debugged in conversation against a live radio.*
+
 New features for the HF Signals **sBitx v3** (Raspberry Pi, GTK3, Debian Buster).
 Built on https://github.com/afarhan/sbitx. Only these files differ from upstream:
 `sbitx.c`, `sbitx_gtk.c`, `usbaudio.c/.h`, `ainr.c/.h`, `freedv_ext.c/.h` and the `Makefile`.
@@ -59,6 +63,19 @@ Full illustrated user manual: `docs/sBitx_User_Manual.pdf`.
 * [TESTED_ON](TESTED_ON.md): hardware and software tested
 * [CONTRIBUTING](CONTRIBUTING.md) and [BUG_REPORT_TEMPLATE](BUG_REPORT_TEMPLATE.md): reporting problems and sending changes
 * [NOTICE](NOTICE.md) and [LICENSE](LICENSE): credits and licences
+
+## Credits
+
+Based on **sBitx** by Ashhar Farhan and HF Signals, https://github.com/afarhan/sbitx (GPL-3.0).
+
+The new features here were developed by **Rajesh Huddar (VU3RHU)** working with
+**Claude (Anthropic)**. Rajesh specified what the radio needed, tested every change
+on the air and judged the results; Claude wrote the code. The DSP design, the GTK
+work and most of the debugging were done in conversation, against a live radio on
+40 and 20 metres.
+
+**RNNoise** (Xiph.Org, Mozilla, Jean-Marc Valin) provides the AI noise reduction.
+**codec2 / FreeDV** (David Rowe) provides the digital voice modes.
 
 ## Licence
 
