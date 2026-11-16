@@ -15,7 +15,7 @@ Open an issue with the title starting "Idea:". Say what you want to do on the ai
 4. Do not include other people's code unless its licence allows it. See `NOTICE.md`.
 
 ## Licence of contributions
-By sending a change you agree that your contribution can be published under the MIT licence in `LICENSE`, as far as it
-is your own work. Code taken from the original sBitx project stays under its own terms.
+This project is GPL-3.0 (see `LICENSE`). By sending a change you agree that your contribution is published
+under the GPL-3.0 along with the rest of the work.
 
 73 de VU3RHU

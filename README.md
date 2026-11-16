@@ -61,7 +61,13 @@ Full illustrated user manual: `docs/sBitx_User_Manual.pdf`.
 * [NOTICE](NOTICE.md) and [LICENSE](LICENSE): credits and licences
 
 ## Licence
-My original additions are MIT licensed (`LICENSE`). Code from the upstream sBitx project, RNNoise and codec2 stays
-under its own terms. See `NOTICE.md` for exactly what is covered by what.
+
+GPL-3.0. See `LICENSE` for the full text and `NOTICE.md` for what covers what.
+
+The sBitx software this is built on is released under the GPL-3.0 by Ashhar Farhan,
+so this repository is too. The source is all here, you may modify and redistribute
+it, and any version you pass on must carry the same licence and its source.
+
+RNNoise keeps its own BSD-style licence, and codec2 its LGPL-2.1.
 
 73 de VU3RHU (MK68JW).
